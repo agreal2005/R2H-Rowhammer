@@ -1,0 +1,50 @@
+# Build artifacts
+champsim/bin/
+champsim/build/
+champsim/src/vcpkg/
+champsim/src/build/
+champsim/src/*.o
+champsim/src/*.d
+
+# Ramulator2 build artifacts
+ramulator2/build/
+ramulator2/src/build/
+ramulator2/src/*.o
+ramulator2/src/ramulator2
+ramulator2/src/libramulator.so
+
+# Traces (large files)
+traces/*.trace
+traces/*.txt
+traces/*.xz
+traces/*.gz
+
+# Simulation outputs
+results/champsim_outputs/*
+results/ramulator2_outputs/*
+!results/champsim_outputs/.gitkeep
+!results/ramulator2_outputs/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large binary files (just in case)
+*.o
+*.so
+*.a
+*.out

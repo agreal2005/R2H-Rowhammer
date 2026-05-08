@@ -1,0 +1,6 @@
+[submodule "champsim/src"]
+	path = champsim/src
+	url = https://github.com/ChampSim/ChampSim.git
+[submodule "ramulator2/src"]
+	path = ramulator2/src
+	url = https://github.com/CMU-SAFARI/ramulator2.git
