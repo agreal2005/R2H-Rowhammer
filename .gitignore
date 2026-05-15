@@ -51,3 +51,7 @@ Thumbs.db
 
 # Large generated trace files
 traces/*.champsim
+
+# Generated trace files (too large for GitHub)
+traces/*.champsim
+traces/*/*.champsim
