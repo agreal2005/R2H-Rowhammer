@@ -1,0 +1,34 @@
+Frontend:
+  impl: TraceFrontend        # We'll feed LLC miss traces directly
+  clock_ratio: 8
+  traces: []                  # Will be overridden at runtime
+
+MemorySystem:
+  impl: GenericDRAM
+  clock_ratio: 3
+
+  DRAM:
+    impl: DDR4
+    org:
+      preset: DDR4_16Gb_x8   # Paper uses 16Gb, not 8Gb
+      channel: 1
+      rank: 1                # Paper uses 1 rank
+    timing:
+      preset: DDR4_3200R     # Paper uses 3200 MT/s
+
+  Controller:
+    impl: Generic
+    Scheduler:
+      impl: FRFCFS
+    RefreshManager:
+      impl: AllBank
+    RowPolicy:
+      impl: ClosedRowPolicy
+      cap: 4
+    plugins:
+      - ControllerPlugin:
+          impl: AQUA
+          activation_threshold: 500
+
+  AddrMapper:
+    impl: RoBaRaCoCh

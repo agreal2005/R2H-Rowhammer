@@ -1,0 +1,25 @@
+--- a/src/cache.cc
++++ b/src/cache.cc
+@@ -529,7 +529,22 @@ uint64_t CACHE::get_set(uint64_t address) const { return static_cast<uint64_t>(g
+ // LCOV_EXCL_STOP
+ 
+-long CACHE::get_set_index(champsim::address address) const { return address.slice(champsim::dynamic_extent{OFFSET_BITS, champsim::lg2(NUM_SET)}).to<long>(); }
++long CACHE::get_set_index(champsim::address address) const {
++  // Check environment variable for randomization (only affects LLC)
++  static bool randomize = []() {
++    const char* env = std::getenv("CHAMPSIM_RANDOMIZE_LLC");
++    return env != nullptr && std::string(env) == "1";
++  }();
++  
++  if (!randomize) {
++    return address.slice(champsim::dynamic_extent{OFFSET_BITS, champsim::lg2(NUM_SET)}).to<long>();
++  }
++  // SplitMix64-based randomized set mapping
++  uint64_t addr = address.to<uint64_t>();
++  addr = (addr ^ (addr >> 30)) * 0xbf58476d1ce4e5b9ULL;
++  addr = (addr ^ (addr >> 27)) * 0x94d049bb133111ebULL;
++  addr = addr ^ (addr >> 31);
++  return static_cast<long>((addr >> champsim::to_underlying(OFFSET_BITS)) % NUM_SET);
++}
+ 
+ template <typename It>

@@ -1,0 +1,43 @@
+Frontend:
+  impl: SimpleO3
+  clock_ratio: 8
+  num_expected_insts: 100000
+  traces: 
+    - /mnt/c/Users/ICG0356/Desktop/Desktop/R2H-Rowhammer/traces/r2h/ramulator_r2h.trace
+  Translation:
+    impl: RandomTranslation
+    max_addr: 2147483648
+
+MemorySystem:
+  impl: GenericDRAM
+  clock_ratio: 3
+
+  DRAM:
+    impl: DDR4
+    org:
+      preset: DDR4_16Gb_x8
+      channel: 1
+      rank: 1
+    timing:
+      preset: DDR4_3200W
+
+  Controller:
+    impl: Generic
+    Scheduler:
+      impl: FRFCFS
+    RefreshManager:
+      impl: AllBank
+    RowPolicy:
+      impl: ClosedRowPolicy
+      cap: 4
+    plugins:
+      - ControllerPlugin:
+          impl: AQUA
+          num_art_entries: 16
+          num_fpt_entries: 256
+          num_qrows_per_bank: 4
+          art_threshold: 500
+          reset_period_ns: 100000000
+
+  AddrMapper:
+    impl: RoBaRaCoCh
